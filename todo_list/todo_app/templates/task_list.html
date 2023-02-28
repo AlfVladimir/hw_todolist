@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Задачи</h1>
+    <table class = 'table'>
+        <thead>
+            <tr>
+            <th>Задача</th>
+            <th>Сделана?</th>
+            <th>Начало</th>
+            <th>Окончание</th>        
+            <th>Удалить</th>                    
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in object_list %}
+            <tr>
+            <td><a  style="text-decoration: none; color:inherit;" href="{% url "update" task.id %}">
+                    {% if task.is_done %}
+                        <del>{{ task.text }}</del>
+                    {% else %}
+                        {{ task.text }}
+                    {% endif %}
+                </a>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <a  style="text-decoration: none; color:inherit;" href="{% url "update" task.id %}">
+                    {% if task.is_done %}
+                        &#9745;
+                    {% else %}
+                        &#9744;
+                    {% endif %}
+              </a>            
+            </td>
+            <td>{{ task.timestamp_create | date:'d.m.y H:i'}}</td>
+            <td>{{ task.timestamp_done | date:'d.m.y H:i'}}</td>            
+             <td style="text-align: center; vertical-align: middle;">
+                <a style="text-decoration: none; color:inherit;" href="{% url "delete" task.id %}">&#10060;</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br />
+    <a  href="{% url "create" %}">Новая задача</a>
+    <br /><br />
+{% endblock content %}
